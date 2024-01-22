@@ -3,13 +3,10 @@ package com.knf.dev.librarymanagementsystem.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import com.knf.dev.librarymanagementsystem.entity.Publisher;
 import com.knf.dev.librarymanagementsystem.service.PublisherService;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class PublisherController {
@@ -24,13 +21,13 @@ public class PublisherController {
 
 	}
 
-	@RequestMapping(path="/publishers",method= RequestMethod.GET)
+	@GetMapping("/publishers")
 	public String findAllPublishers(Model model) {
 		model.addAttribute("publishers", publisherService.findAllPublishers());
 		return "list-publishers";
 	}
 
-	@RequestMapping(path="/publisher/{id}",method= RequestMethod.GET)
+	@GetMapping("/publisher/{id}")
 	public String findPublisherById(@PathVariable("id") Long id, Model model) {
 		model.addAttribute(A_PUBLISHER, publisherService.findPublisherById(id));
 		return "list-publisher";
@@ -41,7 +38,7 @@ public class PublisherController {
 		return "add-publisher";
 	}
 
-	@RequestMapping(path="/add-publisher",method= RequestMethod.POST)
+	@PostMapping("/add-publisher")
 	public String createPublisher(Publisher publisher, BindingResult result, Model model) {
 		if (result.hasErrors()) {
 			return "add-publisher";
@@ -57,7 +54,7 @@ public class PublisherController {
 		return "update-publisher";
 	}
 
-	@RequestMapping(path="/update-publisher/{id}",method= RequestMethod.POST)
+	@PostMapping("/update-publisher/{id}")
 	public String updatePublisher(@PathVariable("id") Long id, Publisher publisher, BindingResult result, Model model) {
 		if (result.hasErrors()) {
 			publisher.setId(id);
@@ -68,7 +65,7 @@ public class PublisherController {
 		return REDIR_PUBLISHERS;
 	}
 
-	@RequestMapping(path="/remove-publisher/{id}",method= RequestMethod.GET)
+	@GetMapping("/remove-publisher/{id}")
 	public String deletePublisher(@PathVariable("id") Long id, Model model) {
 		publisherService.deletePublisher(id);
 		model.addAttribute(A_PUBLISHER, publisherService.findAllPublishers());

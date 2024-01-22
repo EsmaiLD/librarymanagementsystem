@@ -22,7 +22,7 @@ public class AuthorController {
 
 	private static final String AN_AUTHOR = "author";
 	private static String REDIR_AUTHORS = "redirect:/authors";
-	@RequestMapping(path="/authors",method= RequestMethod.GET)
+	@GetMapping("/authors")
 	public String findAllAuthors(Model model, @RequestParam("page") Optional<Integer> page,
 								 @RequestParam("size") Optional<Integer> size) {
 
@@ -40,7 +40,7 @@ public class AuthorController {
 		return "list-authors";
 	}
 
-	@RequestMapping(path="/author/{id}",method= RequestMethod.GET)
+	@GetMapping("/author/{id}")
 	public String findAuthorById(@PathVariable("id") Long id, Model model) {
 
 		model.addAttribute(AN_AUTHOR, authorService.findAuthorById(id));
@@ -52,7 +52,7 @@ public class AuthorController {
 		return "add-author";
 	}
 
-	@RequestMapping(path="/add-author",method= RequestMethod.POST)
+	@PostMapping("/add-author")
 	public String createAuthor(Author author, BindingResult result, Model model) {
 		if (result.hasErrors()) {
 			return "add-author";
@@ -71,7 +71,7 @@ public class AuthorController {
 		return "update-author";
 	}
 
-	@RequestMapping(path="/update-author/{id}",method= RequestMethod.POST)
+	@PostMapping("/update-author/{id}")
 	public String updateAuthor(@PathVariable("id") Long id, Author author, BindingResult result, Model model) {
 		if (result.hasErrors()) {
 			author.setId(id);
@@ -83,7 +83,7 @@ public class AuthorController {
 		return REDIR_AUTHORS;
 	}
 
-	@RequestMapping(path="/remove-author/{id}",method= RequestMethod.GET)
+	@GetMapping("/remove-author/{id}")
 	public String deleteAuthor(@PathVariable("id") Long id, Model model) {
 		authorService.deleteAuthor(id);
 		model.addAttribute(AN_AUTHOR, authorService.findAllAuthors());
