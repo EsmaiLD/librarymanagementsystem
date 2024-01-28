@@ -3,6 +3,7 @@ package com.knf.dev.librarymanagementsystem;
 import com.knf.dev.librarymanagementsystem.entity.*;
 import com.knf.dev.librarymanagementsystem.repository.UserRepository;
 import com.knf.dev.librarymanagementsystem.service.BookService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,6 +24,8 @@ public class Application {
 
 	private final UserRepository userRepository;
 
+	@Value("${authpass}")
+	private String password;
 
 	public Application(BCryptPasswordEncoder passwordEncoder, BookService bookService, UserRepository userRepository){
 		this.passwordEncoder = passwordEncoder;
@@ -57,7 +60,8 @@ public class Application {
 			book2.addPublishers(new Publisher("publisher3"));
 			bookService.createBook(book2);
 
-			var user = new User("admin", "admin", "admin@admin.in", passwordEncoder.encode("Temp123"),
+			var user = new User("admin", "admin",
+					"admin@admin.in", passwordEncoder.encode(password),
 					Arrays.asList(new Role("ROLE_ADMIN")));
 			userRepository.save(user);
 
